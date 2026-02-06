@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Diamond/Gem shape with facets -->
+  <path d="M16 2 L24 11 L16 30 L8 11 Z" fill="#B6771D"/>
+  <path d="M16 2 L20 11 L16 20 L12 11 Z" fill="#FF9D00"/>
+  <path d="M16 20 L20 11 L24 11 L16 30 Z" fill="#FFCF71" opacity="0.8"/>
+  <path d="M16 20 L12 11 L8 11 L16 30 Z" fill="#FFCF71" opacity="0.8"/>
+  <path d="M16 2 L12 11 L8 11 Z" fill="#7B542F" opacity="0.7"/>
+  <path d="M16 2 L20 11 L24 11 Z" fill="#7B542F" opacity="0.7"/>
+  <circle cx="16" cy="12" r="2" fill="#FFCF71" opacity="0.6"/>
+</svg>
