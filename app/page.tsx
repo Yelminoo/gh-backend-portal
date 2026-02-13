@@ -20,13 +20,6 @@ export default function Home() {
             <circle cx="60" cy="45" r="8" fill="#FFCF71" opacity="0.6"/>
           </svg>
         </div>
-        <iframe
-          src="https://outlook.office.com/bookwithme/user/9977bba04990499fb915f6af9c02f180%40Ros454.onmicrosoft.com?anonymous&ismsaljsauthenabled=true"
-          width="100%"
-          height="800"
-          style={{ border: 'none' }}
-          loading="lazy"
-        ></iframe>
 
         <h1 className="text-6xl font-bold text-primary-900 mb-4">
           GemHaven
