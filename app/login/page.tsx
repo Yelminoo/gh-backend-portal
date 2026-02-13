@@ -16,9 +16,22 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      router.push('/dashboard');
+      
+      // Wait for token to be confirmed in localStorage
+      const maxAttempts = 10;
+      let attempts = 0;
+      
+      while (attempts < maxAttempts) {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          router.push('/dashboard');
+          return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 50));
+        attempts++;
+      }
     } catch (error) {
-      // Error is handled in store
+      console.error('Login error:', error);
     }
   };
 

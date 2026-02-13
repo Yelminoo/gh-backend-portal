@@ -60,3 +60,29 @@ body {
   background: #FF9D00;
 }
 
+/* Better form input styling */
+select {
+  @apply text-gray-900 bg-white;
+}
+
+select option {
+  @apply text-gray-900;
+}
+
+select option[value=""] {
+  @apply text-gray-400;
+}
+
+input::placeholder,
+textarea::placeholder {
+  @apply text-gray-400;
+}
+
+/* Improve select dropdown appearance */
+select:invalid {
+  @apply text-gray-400;
+}
+
+select:valid {
+  @apply text-gray-900;
+}
