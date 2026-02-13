@@ -11,6 +11,7 @@ interface SidebarProps {
 
 export default function Sidebar({ children }: SidebarProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useAuthStore();
@@ -21,10 +22,25 @@ export default function Sidebar({ children }: SidebarProps) {
     { name: 'Products', href: '/products', icon: '📦' },
     { name: 'Orders', href: '/orders', icon: '🛒' },
     { name: 'Shops', href: '/shops', icon: '🏪' },
+    { 
+      name: 'Inventory', 
+      icon: '💎',
+      submenu: [
+        { name: 'Warehouses', href: '/warehouses', icon: '🏢' },
+        { name: 'Parcels', href: '/parcels', icon: '📦' },
+      ]
+    },
     { name: 'Settings', href: '/settings', icon: '⚙️' },
   ];
 
   const isActive = (path: string) => pathname === path;
+  const isSubmenuActive = (submenu?: Array<{ href: string }>) => {
+    return submenu?.some(item => pathname.startsWith(item.href)) || false;
+  };
+
+  const toggleSubmenu = (menuName: string) => {
+    setExpandedMenu(expandedMenu === menuName ? null : menuName);
+  };
 
   const handleLogout = () => {
     logout();
@@ -108,22 +124,83 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-2 py-5 space-y-1">
           {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setIsSidebarOpen(false)}
-              className={`
-                group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors
-                ${
-                  isActive(item.href)
-                    ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-primary-100 hover:bg-primary-800 hover:text-white'
-                }
-              `}
-            >
-              <span className="text-2xl mr-3">{item.icon}</span>
-              {item.name}
-            </Link>
+            <div key={item.name}>
+              {item.submenu ? (
+                // Menu item with submenu
+                <div>
+                  <button
+                    onClick={() => toggleSubmenu(item.name)}
+                    className={`
+                      w-full group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-colors
+                      ${
+                        isSubmenuActive(item.submenu)
+                          ? 'bg-primary-500 text-white shadow-md'
+                          : 'text-primary-100 hover:bg-primary-800 hover:text-white'
+                      }
+                    `}
+                  >
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">{item.icon}</span>
+                      {item.name}
+                    </div>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${
+                        expandedMenu === item.name ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  {expandedMenu === item.name && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {item.submenu.map((subitem) => (
+                        <Link
+                          key={subitem.name}
+                          href={subitem.href}
+                          onClick={() => setIsSidebarOpen(false)}
+                          className={`
+                            group flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                            ${
+                              isActive(subitem.href)
+                                ? 'bg-primary-600 text-white'
+                                : 'text-primary-100 hover:bg-primary-700 hover:text-white'
+                            }
+                          `}
+                        >
+                          <span className="text-lg mr-2">{subitem.icon}</span>
+                          {subitem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // Regular menu item
+                <Link
+                  href={item.href!}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={`
+                    group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors
+                    ${
+                      isActive(item.href!)
+                        ? 'bg-primary-500 text-white shadow-md'
+                        : 'text-primary-100 hover:bg-primary-800 hover:text-white'
+                    }
+                  `}
+                >
+                  <span className="text-2xl mr-3">{item.icon}</span>
+                  {item.name}
+                </Link>
+              )}
+            </div>
           ))}
 
           {/* Logout button */}

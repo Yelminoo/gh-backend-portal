@@ -28,7 +28,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await api.post('/auth/login', { email, password });
-      const { accessToken } = response.data;
+      // The TransformInterceptor wraps response in { success, timestamp, data }
+      const { accessToken } = response.data.data || response.data;
 
       localStorage.setItem('access_token', accessToken);
       set({ accessToken, isLoading: false });

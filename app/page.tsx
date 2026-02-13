@@ -20,7 +20,7 @@ export default function Home() {
             <circle cx="60" cy="45" r="8" fill="#FFCF71" opacity="0.6"/>
           </svg>
         </div>
-
+       
         <h1 className="text-6xl font-bold text-primary-900 mb-4">
           GemHaven
         </h1>
